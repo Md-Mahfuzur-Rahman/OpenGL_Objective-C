@@ -3,10 +3,7 @@
 //  OpenGL-Tutorial
 //
 //  Created by Mahfuz on 16/2/20.
-//  Copyright © 2020 KITE GAMES STUDIO. All rights reserved.
-//
 
-//#define    GLES_SILENCE_DEPRECATION
 
 #import "OpenGL_View.h"
 //----
@@ -14,6 +11,10 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 //-----
+//N.B: to get rid of OpenGL deprecated warning, go to BuildSetting-> search "deprecated" ->
+// -> you should see "Deprecated Functions" option -> set it to NO
+//-----
+
 
 @implementation OpenGL_View{
     
@@ -24,41 +25,6 @@
     GLuint                 colorSlot;
     GLuint 				programHandle;
      float 			count;
-}
-
-- (void) update{
-    
-    if ([EAGLContext currentContext] != context) {
-        [EAGLContext setCurrentContext:context];
-    }
-
-    glUseProgram(programHandle);
-    //----
-    GLfloat vVertices[] =
-    	{0.0f, 0.5f, 0.0f,  //top
-        -0.5f, -0.5f, 0.0f,  //bottom left
-        0.5f, -0.5f, 0.0f};  //bottom right
-    
-    //count = count + 0.01;
-    //vVertices[1] = count;
-    //test
-    NSLog(@"test======== %f", count);
-    
-    glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    // 1   // Set the viewport
-    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
-    // Load the vertex data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
-    glEnableVertexAttribArray(0);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    //----
-
-    glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);
-    [context presentRenderbuffer:GL_RENDERBUFFER];
-
-    NSLog(@"update ================= GL view ");
 }
 
 + (Class) layerClass {
@@ -135,7 +101,6 @@
     [context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-
 - (void)compileShaders {
     // 1
     GLuint vertexShader = [self compileShader:@"SimpleVertex"  withType:GL_VERTEX_SHADER];
@@ -203,3 +168,43 @@
 
 
 @end
+
+// ---------------------------
+/*
+ - (void) update{
+     
+     if ([EAGLContext currentContext] != context) {
+         [EAGLContext setCurrentContext:context];
+     }
+
+     glUseProgram(programHandle);
+     //----
+     GLfloat vVertices[] =
+         {0.0f, 0.5f, 0.0f,  //top
+         -0.5f, -0.5f, 0.0f,  //bottom left
+         0.5f, -0.5f, 0.0f};  //bottom right
+     
+     //count = count + 0.01;
+     //vVertices[1] = count;
+     //test
+     NSLog(@"test======== %f", count);
+     
+     glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
+     glClear(GL_COLOR_BUFFER_BIT);
+     
+     // 1   // Set the viewport
+     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+     // Load the vertex data
+     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
+     glEnableVertexAttribArray(0);
+     glDrawArrays(GL_TRIANGLES, 0, 3);
+     //----
+
+     glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);
+     [context presentRenderbuffer:GL_RENDERBUFFER];
+
+     NSLog(@"update ================= GL view ");
+ }
+ */
+
+
